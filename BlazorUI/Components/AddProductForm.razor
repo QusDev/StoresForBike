@@ -1,0 +1,96 @@
+﻿@page "/products/add"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject IProductService productService;
+@inject NavigationManager navigationManager;
+
+<form @onsubmit=OnFormSubmit>
+    <div class="mb-3">
+        <label for="productName" class="col-form-label-lg">Product Name</label>
+        <input type="text" class="form-control" id="productName" @bind="@product.ProductName" placeholder="Enter Product Name">
+    </div>
+
+    <div class="mb-3">
+        <label for="brandId" class="col-form-label-lg">Brand Id</label>
+        <input type="text" class="form-control" id="brandId" @bind="@product.BrandId" placeholder="Enter Brand Id">
+    </div>
+
+    <div class="mb-3">
+        <label for="categoryId" class="col-form-label-lg">Category Id</label>
+        <input type="text" class="form-control" id="categoryId" @bind="@product.CategoryId" placeholder="Enter Category Id">
+    </div>
+
+    <div class="mb-3">
+        <label for="modelYear" class="col-form-label-lg">Model Year</label>
+        <input type="text" class="form-control" id="modelYear" @bind="@product.ModelYear" placeholder="Enter Model Year">
+    </div>
+
+    <div class="mb-3">
+        <label for="price" class="col-form-label-lg">Price</label>
+        <input type="text" class="form-control" id="price" @bind="@product.Price" placeholder="Enter Price">
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <NavLink href="/products"><button type="button" class="btn btn-danger">Cancel</button></NavLink>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int ProductId { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string ProductName { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int BrandId { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int CategoryId { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int ModelYear { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public double Price { get; set; }
+
+    private Product product;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+
+        product = new Product()
+            {
+                ProductId = this.ProductId,
+                BrandId = this.BrandId,
+                CategoryId = this.CategoryId,
+                ModelYear = this.ModelYear,
+                Price = this.Price,
+                ProductName = this.ProductName,
+            };
+
+    }
+
+    public async Task OnFormSubmit()
+    {
+        if (product.ProductId == 0)
+        {
+            await productService.AddProductAsync(product);
+        }
+        else
+        {
+            await productService.UpdateProductAsync(product);
+        }
+
+        navigationManager.NavigateTo("/products");
+    }
+}

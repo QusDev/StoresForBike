@@ -1,0 +1,79 @@
+﻿@page "/products"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@inject IProductService productService;
+@inject NavigationManager navigationManager;
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <NavLink class="nav-link" href="/products/add">
+        <button class="btn btn-primary">Add Product</button>
+    </NavLink>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ProductId</th>
+                <th>ProductName</th>
+                <th>BrandId</th>
+                <th>CategoryId</th>
+                <th>ModalYear</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.ProductId</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.BrandId</td>
+                    <td>@product.CategoryId</td>
+                    <td>@product.ModelYear</td>
+                    <td>@product.Price</td>
+                    <td>
+                        <div class="mb-0">
+                            <button class="btn btn-primary" @onclick="@(() => OnUpdate(product))">Update</button>
+                            <button class="btn btn-danger" @onclick="@(() => OnDelete(product.ProductId))">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Product> products = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await productService.GetProductsAsync();
+    }
+
+    public async Task OnDelete(int customerId)
+    {
+        await productService.DeleteProductAsync(customerId);
+        products = await productService.GetProductsAsync();
+    }
+
+    public void OnUpdate(Product customer)
+    {
+        var url = navigationManager.GetUriWithQueryParameters("/products/add", new Dictionary<string, object?>
+            {
+                ["ProductId"] = customer.ProductId,
+                ["ProductName"] = customer.ProductName,
+                ["BrandId"] = customer.BrandId,
+                ["CategoryId"] = customer.CategoryId,
+                ["ModelYear"] = customer.ModelYear,
+                ["Price"] = customer.Price,
+            });
+
+        navigationManager.NavigateTo(url);
+    }
+}
+

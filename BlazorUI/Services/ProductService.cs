@@ -23,15 +23,13 @@ namespace BlazorUI.Services
                             $"BrandId," +
                             $"CategoryId," +
                             $"Price," +
-                            $"ModelYear," +
-                            $"ZipCode)" +
+                            $"ModelYear) " +
                          $"VALUES (" +
                             $"@ProductName," +
                             $"@BrandId," +
                             $"@CategoryId," +
                             $"@Price," +
-                            $"@ModelYear," +
-                            $"@ZipCode)";
+                            $"@ModelYear)";
 
             await connection.QueryAsync<Customer>(query, product);
         }
@@ -82,9 +80,8 @@ namespace BlazorUI.Services
                             $"Price = @Price," +
                             $"BrandId = @BrandId," +
                             $"CategoryId = @CategoryId," +
-                            $"Price = @Price," +
-                            $"ModelYear = @ModelYear," +
-                         $"WHERE Products = @Products";
+                            $"ModelYear = @ModelYear " +
+                         $"WHERE ProductId = @ProductId";
 
             await connection.QueryAsync<Product>(query, product);
         }
