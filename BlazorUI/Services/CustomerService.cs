@@ -93,7 +93,7 @@ namespace BlazorUI.Services
                             $"State = @State," +
                             $"Street = @Street," +
                             $"ZipCode = @ZipCode " +
-                         $"WHERE CustomerId = @CustomerId";
+                         $"WHERE CustomerId = @CustomerId ";
 
             await connection.QueryAsync<Customer>(query, customer);
         }

@@ -10,6 +10,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IConnectionService, ConnectionService>();
 
 var app = builder.Build();
