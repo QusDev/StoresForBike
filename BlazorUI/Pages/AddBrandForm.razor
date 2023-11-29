@@ -1,0 +1,64 @@
+﻿@page "/brands/add"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject IBrandService brandService;
+@inject NavigationManager navigationManager;
+
+<form @onsubmit=OnFormSubmit>
+    <div class="mb-3">
+        <label for="brandName" class="col-form-label-lg">Brand name</label>
+        <input type="text" class="form-control" id="brandName" @bind="@brand.BrandName" placeholder="Enter name">
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <NavLink href="/brands"><button type="button" class="btn btn-danger">Cancel</button></NavLink>
+    </div>
+</form>
+
+@code {
+    [SupplyParameterFromQuery(Name = "BrandId")]
+    public int BrandId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "BrandName")]
+    public string BrandName { get; set; }
+
+    private Brand brand;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri); //you can use IURIHelper for older versions
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("BrandId", out var brandIdQuery))
+        {
+            int.TryParse(brandIdQuery, out var brandIdInt);
+            BrandId = brandIdInt;
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("BrandName", out var brandNameQuery))
+        {
+            BrandName = brandNameQuery;
+        }
+
+        brand = new Brand()
+        {
+            BrandId = this.BrandId,
+            BrandName = this.BrandName
+        };
+    }
+
+    public async Task OnFormSubmit()
+    {
+        if (brand.BrandId == 0)
+        {
+            await brandService.AddBrandAsync(brand);
+        }
+        else
+        {
+            await brandService.UpdateBrandAsync(brand);
+        }
+
+        navigationManager.NavigateTo("/brands");
+    }
+}

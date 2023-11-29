@@ -1,0 +1,68 @@
+﻿@page "/brands"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@inject IBrandService brandService;
+@inject NavigationManager navigationManager;
+
+@if (brands == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <NavLink class="nav-link" href="/brands/add">
+        <button class="btn btn-primary">Add Brand</button>
+    </NavLink>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>BrandId</th>
+                <th>BrandName</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var brand in brands)
+            {
+                <tr>
+                    <td>@brand.BrandId</td>
+                    <td>@brand.BrandName</td>
+                    <td>
+                        <div class="mb-0">
+                            <button class="btn btn-primary" @onclick="@(() => OnUpdate(brand))">Update</button>
+                            <button class="btn btn-danger" @onclick="@(() => OnDelete(brand.BrandId))">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Brand> brands = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        brands = await brandService.GetBrandsAsync();
+    }
+
+    public async Task OnDelete(int brandId)
+    {
+        await brandService.DeleteBrandAsync(brandId);
+        brands = await brandService.GetBrandsAsync();
+    }
+
+    public void OnUpdate(Brand brand)
+    {
+        var url = navigationManager.GetUriWithQueryParameters("/brands/add", new Dictionary<string, object?>
+            {
+                ["BrandId"] = (int)brand.BrandId,
+                ["BrandName"] = (string)brand.BrandName,
+            });
+
+        navigationManager.NavigateTo(url);
+    }
+}
+
