@@ -85,15 +85,15 @@ namespace BlazorUI.Services
 
 
             var query = $"UPDATE Customers SET " +
-                            $"FirstName = @FirstName " +
-                            $"LastName = @LastName " +
-                            $"Phone = @Phone " +
-                            $"Email = @Email " +
-                            $"City = @City " +
-                            $"State = @State " +
-                            $"Street = @Street " +
+                            $"FirstName = @FirstName," +
+                            $"LastName = @LastName," +
+                            $"Phone = @Phone," +
+                            $"Email = @Email," +
+                            $"City = @City," +
+                            $"State = @State," +
+                            $"Street = @Street," +
                             $"ZipCode = @ZipCode " +
-                         $"WHERE CategoryId = @CategoryId";
+                         $"WHERE CustomerId = @CustomerId";
 
             await connection.QueryAsync<Customer>(query, customer);
         }

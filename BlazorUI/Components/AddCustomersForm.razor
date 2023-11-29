@@ -1,0 +1,126 @@
+﻿@page "/customers/add"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject ICustomerService customerService;
+@inject NavigationManager navigationManager;
+
+<form @onsubmit=OnFormSubmit>
+    <div class="mb-3">
+        <label for="customerFirstName" class="col-form-label-lg">Customer First Name</label>
+        <input type="text" class="form-control" id="customerFirstName" @bind="@customer.FirstName" placeholder="Enter first name">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerLastName" class="col-form-label-lg">Customer Last Name</label>
+        <input type="text" class="form-control" id="customerLastName" @bind="@customer.LastName" placeholder="Enter last name">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerPhone" class="col-form-label-lg">Customer Phone</label>
+        <input type="text" class="form-control" id="customerPhone" @bind="@customer.Phone" placeholder="Enter phone">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerEmail" class="col-form-label-lg">Customer Email</label>
+        <input type="text" class="form-control" id="customerEmail" @bind="@customer.Email" placeholder="Enter Email">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerStreet" class="col-form-label-lg">Customer Street</label>
+        <input type="text" class="form-control" id="customerStreet" @bind="@customer.Street" placeholder="Enter Street">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerCity" class="col-form-label-lg">Customer City</label>
+        <input type="text" class="form-control" id="customerCity" @bind="@customer.City" placeholder="Enter City">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerState" class="col-form-label-lg">Customer state</label>
+        <input type="text" class="form-control" id="customerState" @bind="@customer.State" placeholder="Enter State">
+    </div>
+
+    <div class="mb-3">
+        <label for="customerZipCode" class="col-form-label-lg">Customer ZipCode</label>
+        <input type="text" class="form-control" id="customerZipCode" @bind="@customer.ZipCode" placeholder="Enter ZipCode">
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <NavLink href="/categories"><button type="button" class="btn btn-danger">Cancel</button></NavLink>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int CustomerId { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string FirstName { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string LastName { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Phone { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Email { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Street { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? City { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? State { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? ZipCode { get; set; }
+
+    private Customer customer;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+
+        customer = new Customer()
+            {
+                CustomerId = this.CustomerId,
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                Phone = this.Phone,
+                Email = this.Email,
+                Street = this.Street,
+                City = this.City,
+                State = this.State,
+                ZipCode = this.ZipCode
+            };
+
+    }
+
+    public async Task OnFormSubmit()
+    {
+        if (customer.CustomerId == 0)
+        {
+            await customerService.AddCustomerAsync(customer);
+        }
+        else
+        {
+            await customerService.UpdateCustomerAsync(customer);
+        }
+
+        navigationManager.NavigateTo("/customers");
+    }
+}

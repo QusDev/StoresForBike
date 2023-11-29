@@ -1,0 +1,88 @@
+﻿@page "/customers"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@inject ICustomerService customerService;
+@inject NavigationManager navigationManager;
+
+@if (customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <NavLink class="nav-link" href="/customers/add">
+        <button class="btn btn-primary">Add Customer</button>
+    </NavLink>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>CustomerId</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Street</th>
+                <th>ZipCode</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+                <tr>
+                    <td>@customer.CustomerId</td>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.Phone</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.City</td>
+                    <td>@customer.State</td>
+                    <td>@customer.Street</td>
+                    <td>@customer.ZipCode</td>
+                    <td>
+                        <div class="mb-0">
+                            <button class="btn btn-primary" @onclick="@(() => OnUpdate(customer))">Update</button>
+                            <button class="btn btn-danger" @onclick="@(() => OnDelete(customer.CustomerId))">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Customer> customers = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await customerService.GetCustomersAsync();
+    }
+
+    public async Task OnDelete(int customerId)
+    {
+        await customerService.DeleteCustomerAsync(customerId);
+        customers = await customerService.GetCustomersAsync();
+    }
+
+    public void OnUpdate(Customer customer)
+    {
+        var url = navigationManager.GetUriWithQueryParameters("/customers/add", new Dictionary<string, object?>
+            {
+                ["CustomerId"] = customer.CustomerId,
+                ["FirstName"] = customer.FirstName,
+                ["LastName"] = customer.LastName,
+                ["Phone"] = customer.Phone,
+                ["Email"] = customer.Email,
+                ["City"] = customer.City,
+                ["State"] = customer.State,
+                ["Street"] = customer.Street,
+                ["ZipCode"] = customer.ZipCode,
+            });
+
+        navigationManager.NavigateTo(url);
+    }
+}
+
