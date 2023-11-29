@@ -3,9 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6DEF9199-FDE3-4892-9A15-0BA0651386DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorUI", "BlazorUI\BlazorUI.csproj", "{69C842C7-C769-4A30-A120-2A9356F91EDC}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69C842C7-C769-4A30-A120-2A9356F91EDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69C842C7-C769-4A30-A120-2A9356F91EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69C842C7-C769-4A30-A120-2A9356F91EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69C842C7-C769-4A30-A120-2A9356F91EDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{69C842C7-C769-4A30-A120-2A9356F91EDC} = {6DEF9199-FDE3-4892-9A15-0BA0651386DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD56734-E207-4535-AA6E-A4DD01633E05}
