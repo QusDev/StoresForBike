@@ -29,3 +29,12 @@ D:\Projects\Github\StoresForBike\BlazorUI\obj\Debug\net7.0\refint\BlazorUI.dll
 D:\Projects\Github\StoresForBike\BlazorUI\obj\Debug\net7.0\BlazorUI.pdb
 D:\Projects\Github\StoresForBike\BlazorUI\obj\Debug\net7.0\BlazorUI.genruntimeconfig.cache
 D:\Projects\Github\StoresForBike\BlazorUI\obj\Debug\net7.0\ref\BlazorUI.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\Dapper.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\System.Data.SqlClient.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\runtimes\win-arm64\native\sni.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\runtimes\win-x64\native\sni.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\runtimes\win-x86\native\sni.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Projects\Github\StoresForBike\BlazorUI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Projects\Github\StoresForBike\BlazorUI\obj\Debug\net7.0\BlazorUI.csproj.AssemblyReference.cache
+D:\Projects\Github\StoresForBike\BlazorUI\obj\Debug\net7.0\BlazorUI.csproj.CopyComplete

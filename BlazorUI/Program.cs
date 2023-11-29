@@ -1,8 +1,14 @@
+using BlazorUI.Interfaces;
+using BlazorUI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IConnectionService, ConnectionService>();
 
 var app = builder.Build();
 
