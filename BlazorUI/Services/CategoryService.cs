@@ -19,7 +19,7 @@ namespace BlazorUI.Services
             using var connection = _connectionService.GetConnection();
             await connection.OpenAsync();
 
-            var query = $"INSERT INTO Category (CategoryName) VALUES (@CategoryName)";
+            var query = $"INSERT INTO Categories (CategoryName) VALUES (@CategoryName)";
             await connection.QueryAsync<Category>(query, category);
         }
 
@@ -28,7 +28,7 @@ namespace BlazorUI.Services
             using var connection = _connectionService.GetConnection();
             await connection.OpenAsync();
 
-            var query = $"DELETE FROM Category WHERE CategoryId = {categoryId}";
+            var query = $"DELETE FROM Categories WHERE CategoryId = {categoryId}";
             await connection.QueryAsync<Category>(query);
         }
 
@@ -46,7 +46,7 @@ namespace BlazorUI.Services
             using var connection = _connectionService.GetConnection();
             await connection.OpenAsync();
 
-            var query = $"SELECT * FROM Category WHERE CategoryId = {categoryId}";
+            var query = $"SELECT * FROM Categories WHERE CategoryId = {categoryId}";
             return await connection.QueryFirstAsync<Category>(query);
         }
 
@@ -59,7 +59,7 @@ namespace BlazorUI.Services
 
             oldCategory.CategoryName = category.CategoryName ?? oldCategory.CategoryName;
 
-            var query = $"UPDATE Category SET CategoryName = @CategoryName WHERE CategoryId = @CategoryId";
+            var query = $"UPDATE Categories SET CategoryName = @CategoryName WHERE CategoryId = @CategoryId";
             await connection.QueryAsync<Category>(query, category);
         }
     }

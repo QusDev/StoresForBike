@@ -1,0 +1,64 @@
+﻿@page "/categories/add"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject ICategoryService categoryService;
+@inject NavigationManager navigationManager;
+
+<form @onsubmit=OnFormSubmit>
+    <div class="mb-3">
+        <label for="categoryName" class="col-form-label-lg">Category name</label>
+        <input type="text" class="form-control" id="categoryName" @bind="@category.CategoryName" placeholder="Enter name">
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <NavLink href="/categories"><button type="button" class="btn btn-danger">Cancel</button></NavLink>
+    </div>
+</form>
+
+@code {
+    [SupplyParameterFromQuery(Name = "CategoryId")]
+    public int CategoryId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "CategoryName")]
+    public string CategoryName { get; set; }
+
+    private Category category;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri); //you can use IURIHelper for older versions
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("CategoryId", out var categoryIdQuery))
+        {
+            int.TryParse(categoryIdQuery, out var categoryIdInt);
+            CategoryId = categoryIdInt;
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("CategoryName", out var categoryNameQuery))
+        {
+            CategoryName = categoryNameQuery;
+        }
+
+        category = new Category()
+            {
+                CategoryId = this.CategoryId,
+                CategoryName = this.CategoryName
+            };
+    }
+
+    public async Task OnFormSubmit()
+    {
+        if (category.CategoryId == 0)
+        {
+            await categoryService.AddCategoryAsync(category);
+        }
+        else
+        {
+            await categoryService.UpdateCategoryAsync(category);
+        }
+
+        navigationManager.NavigateTo("/categories");
+    }
+}

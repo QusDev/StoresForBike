@@ -1,0 +1,68 @@
+﻿@page "/categories"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@inject ICategoryService categoryService;
+@inject NavigationManager navigationManager;
+
+@if (categories == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <NavLink class="nav-link" href="/categories/add">
+        <button class="btn btn-primary">Add Category</button>
+    </NavLink>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>CategoryId</th>
+                <th>CategoryName</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in categories)
+            {
+                <tr>
+                    <td>@category.CategoryId</td>
+                    <td>@category.CategoryName</td>
+                    <td>
+                        <div class="mb-0">
+                            <button class="btn btn-primary" @onclick="@(() => OnUpdate(category))">Update</button>
+                            <button class="btn btn-danger" @onclick="@(() => OnDelete(category.CategoryId))">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Category> categories = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await categoryService.GetCategoriesAsync();
+    }
+
+    public async Task OnDelete(int categoryId)
+    {
+        await categoryService.DeleteCategoryAsync(categoryId);
+        categories = await categoryService.GetCategoriesAsync();
+    }
+
+    public void OnUpdate(Category category)
+    {
+        var url = navigationManager.GetUriWithQueryParameters("/categories/add", new Dictionary<string, object?>
+            {
+                ["CategoryId"] = (int)category.CategoryId,
+                ["CategoryName"] = (string)category.CategoryName,
+            });
+
+        navigationManager.NavigateTo(url);
+    }
+}
+

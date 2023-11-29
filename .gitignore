@@ -1,2 +1,15 @@
-*/Debug/*
-*.suo
+/.vs/StoresForBike/FileContentIndex/*
+/.vs/StoresForBike/v17/*
+/.vs/StoresForBike/v17/.suo
+/BlazorUI/bin/Debug/net7.0/BlazorUI.dll
+/BlazorUI/bin/Debug/net7.0/BlazorUI.pdb
+*.dll
+/BlazorUI/obj/Debug/net7.0/BlazorUI.dll
+/BlazorUI/obj/Debug/net7.0/BlazorUI.GeneratedMSBuildEditorConfig.editorconfig
+/BlazorUI/obj/Debug/net7.0/BlazorUI.pdb
+/BlazorUI/obj/Debug/net7.0/project.razor.vs.json
+/.vs/StoresForBike/FileContentIndex/abb13572-3c47-4ac3-9b8b-8632d6c4ad47.vsidx
+/.vs/StoresForBike/FileContentIndex/e56f0e72-da68-45b5-8172-2c9aa8c0af99.vsidx
+/.vs/StoresForBike/FileContentIndex/e8e44e7f-5672-4810-bf3b-442c6f42fc08.vsidx
+/.vs/StoresForBike/FileContentIndex/eae4e344-7889-4017-926f-df6dfd053fa0.vsidx
+/.vs/StoresForBike/DesignTimeBuild
