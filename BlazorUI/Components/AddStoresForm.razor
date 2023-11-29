@@ -1,0 +1,117 @@
+﻿@page "/stores/add"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject IStoreService storeService;
+@inject NavigationManager navigationManager;
+
+<form @onsubmit=OnFormSubmit>
+
+    <div class="mb-3">
+        <label for="storeName" class="col-form-label-lg">Store Name</label>
+        <input type="text" class="form-control" id="storeName" @bind="@store.StoreName" placeholder="Enter Store Name">
+    </div>
+
+    <div class="mb-3">
+        <label for="storePhone" class="col-form-label-lg">Store Phone</label>
+        <input type="text" class="form-control" id="storePhone" @bind="@store.Phone" placeholder="Enter phone">
+    </div>
+
+    <div class="mb-3">
+        <label for="storeEmail" class="col-form-label-lg">Store Email</label>
+        <input type="text" class="form-control" id="storeEmail" @bind="@store.Email" placeholder="Enter Email">
+    </div>
+
+    <div class="mb-3">
+        <label for="storeStreet" class="col-form-label-lg">Store Street</label>
+        <input type="text" class="form-control" id="storeStreet" @bind="@store.Street" placeholder="Enter Street">
+    </div>
+
+    <div class="mb-3">
+        <label for="storeCity" class="col-form-label-lg">Store City</label>
+        <input type="text" class="form-control" id="storeCity" @bind="@store.City" placeholder="Enter City">
+    </div>
+
+    <div class="mb-3">
+        <label for="storeState" class="col-form-label-lg">Store state</label>
+        <input type="text" class="form-control" id="storeState" @bind="@store.State" placeholder="Enter State">
+    </div>
+
+    <div class="mb-3">
+        <label for="storeZipCode" class="col-form-label-lg">Store ZipCode</label>
+        <input type="text" class="form-control" id="storeZipCode" @bind="@store.ZipCode" placeholder="Enter ZipCode">
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <NavLink href="/stores"><button type="button" class="btn btn-danger">Cancel</button></NavLink>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int StoreId { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string StoreName { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Phone { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Email { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Street { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? City { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? State { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? ZipCode { get; set; }
+
+    private Store store;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+
+        store = new Store()
+            {
+                StoreId = this.StoreId,
+                StoreName = this.StoreName,
+                Phone = this.Phone,
+                Email = this.Email,
+                Street = this.Street,
+                City = this.City,
+                State = this.State,
+                ZipCode = this.ZipCode
+            };
+
+    }
+
+    public async Task OnFormSubmit()
+    {
+        if (store.StoreId == 0)
+        {
+            await storeService.AddStoreAsync(store);
+        }
+        else
+        {
+            await storeService.UpdateStoreAsync(store);
+        }
+
+        navigationManager.NavigateTo("/stores");
+    }
+}

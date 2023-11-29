@@ -1,0 +1,85 @@
+﻿@page "/stores"
+@using BlazorUI.Interfaces;
+@using BlazorUI.Models;
+@inject IStoreService storeService;
+@inject NavigationManager navigationManager;
+
+@if (stores == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <NavLink class="nav-link" href="/stores/add">
+        <button class="btn btn-primary">Add Stores</button>
+    </NavLink>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>StoreId</th>
+                <th>StoreName</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Street</th>
+                <th>ZipCode</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var store in stores)
+            {
+                <tr>
+                    <td>@store.StoreId</td>
+                    <td>@store.StoreName</td>
+                    <td>@store.Phone</td>
+                    <td>@store.Email</td>
+                    <td>@store.City</td>
+                    <td>@store.State</td>
+                    <td>@store.Street</td>
+                    <td>@store.ZipCode</td>
+                    <td>
+                        <div class="mb-0">
+                            <button class="btn btn-primary" @onclick="@(() => OnUpdate(store))">Update</button>
+                            <button class="btn btn-danger" @onclick="@(() => OnDelete(store.StoreId))">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Store> stores = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        stores = await storeService.GetStoresAsync();
+    }
+
+    public async Task OnDelete(int storesId)
+    {
+        await storeService.DeleteStoreAsync(storesId);
+        stores = await storeService.GetStoresAsync();
+    }
+
+    public void OnUpdate(Store store)
+    {
+        var url = navigationManager.GetUriWithQueryParameters("/stores/add", new Dictionary<string, object?>
+            {
+                ["StoreId"] = store.StoreId,
+                ["StoreName"] = store.StoreName,
+                ["Phone"] = store.Phone,
+                ["Email"] = store.Email,
+                ["City"] = store.City,
+                ["State"] = store.State,
+                ["Street"] = store.Street,
+                ["ZipCode"] = store.ZipCode,
+            });
+
+        navigationManager.NavigateTo(url);
+    }
+}
+

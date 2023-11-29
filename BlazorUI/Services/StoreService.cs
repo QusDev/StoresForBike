@@ -18,7 +18,7 @@ namespace BlazorUI.Services
             using var connection = _connectionService.GetConnection();
             await connection.OpenAsync();
 
-            var query = $"INSERT INTO Customers (" +
+            var query = $"INSERT INTO Stores (" +
                             $"StoreName," +
                             $"Phone," +
                             $"Email," +
@@ -81,7 +81,7 @@ namespace BlazorUI.Services
             oldStore.ZipCode = store.ZipCode ?? oldStore.ZipCode;
 
 
-            var query = $"UPDATE Customers SET " +
+            var query = $"UPDATE Stores SET " +
                             $"StoreName = @StoreName," +
                             $"Phone = @Phone," +
                             $"Email = @Email," +
@@ -89,7 +89,7 @@ namespace BlazorUI.Services
                             $"State = @State," +
                             $"Street = @Street," +
                             $"ZipCode = @ZipCode " +
-                         $"WHERE CustomerId = @CustomerId ";
+                         $"WHERE StoreId = @StoreId";
 
             await connection.QueryAsync<Store>(query, store);
         }
