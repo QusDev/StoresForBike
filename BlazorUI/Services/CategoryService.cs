@@ -1,6 +1,5 @@
 ﻿using BlazorUI.Interfaces;
 using BlazorUI.Models;
-using BlazorUI.Pages;
 using Dapper;
 
 namespace BlazorUI.Services
