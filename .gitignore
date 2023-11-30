@@ -10,3 +10,4 @@
 /BlazorUI/obj/Debug/net7.0/project.razor.vs.json
 /.vs/StoresForBike/DesignTimeBuild/.dtbcache.v2
 /BlazorUI/obj/Debug/net7.0/BlazorUI.csproj.CoreCompileInputs.cache
+/.vs/*
